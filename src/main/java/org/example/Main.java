@@ -11,8 +11,8 @@ package org.example;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.pdfbox.text.PDFTextStripperByArea;
-import java.util.*;
-import java.io.*;
+import java.util.Scanner;
+import java.io.PrintWriter;
 import java.io.File;
 import java.io.IOException;
 public class Main
@@ -21,39 +21,32 @@ public class Main
     {
         try
         {
+            Scanner lire = new Scanner(System.in);
 
             String path,nameFile;
 
-            System.out.println("enter the name of your new file excel with path : ");
+            System.out.println("Enter le chemin d'enregistrement de votre ficher excel et son nom (fichier.csv): ");
+            nameFile = lire.nextLine(); //scanner pour lire le chemin d'enregistrement donner par l'utilisateur.
 
-            Scanner lire = new Scanner(System.in);
+            System.out.println("Entrer le chemin de votre fichier pdf (liste d'etudiants): ");
+            path = lire.nextLine();//scanner pour lire le chemin du fichier PDF donner par l'utilisateur.
 
-            nameFile = lire.nextLine();
+            PrintWriter GiFile = new PrintWriter(nameFile);// le nom de fichier CSV aprés la convertion.
 
-            System.out.println("enter the path of the pdf file : ");
-
-            path = lire.nextLine();
-
-            PrintWriter GiFile = new PrintWriter(nameFile);// this is the name of csv file after being converted...
-
-
-            PDDocument doc = PDDocument.load(new File(path));// here is the name of pdf file that we want to read .
+            PDDocument doc = PDDocument.load(new File(path));// le nom de fichier PDF que nous voulons lire.
             doc.getClass();
-            if (!doc.isEncrypted())
+            if (!doc.isEncrypted()) //pour tester si le fichier est crypté ou non. Si oui, il va rien faire, sinon, il va executer le traitement suivant.
             {
 
 
-                PDFTextStripperByArea stripper = new PDFTextStripperByArea();
-                stripper.setSortByPosition(true);
-                PDFTextStripper Tstripper = new PDFTextStripper();
+                PDFTextStripperByArea stripper = new PDFTextStripperByArea();//Cela extraira le texte d'une région spécifiée dans le PDF.
+                stripper.setSortByPosition(true); //Pour trier le texte de gauche à droite et de haut en bas.
+                PDFTextStripper Tstripper = new PDFTextStripper(); //Cette classe prendra un document pdf et supprimera tout le texte et ignorera le formatage et autres.
                 String str = Tstripper.getText(doc);
 
-                //
+                Scanner scnLine = new Scanner(str); //lire les lignes de document PDF.
 
-                Scanner scnLine = null;
-
-                scnLine = new Scanner(str);//read lines from pdf file...
-
+                //création des trois colonnes CNE, NOM, Prenom.
 
                 String CNE = "";
 
@@ -62,7 +55,7 @@ public class Main
                 String PRENOM = "";
 
 
-                while (scnLine.hasNextLine())
+                while (scnLine.hasNextLine()) //en tant qu'il exist des lignes, le code suivant va étre executer.
                 {
 
                     String line = scnLine.nextLine();
@@ -81,8 +74,8 @@ public class Main
 
                 }
             }
-            doc.close();
-            GiFile.close();
+            doc.close(); //fermer le document.
+            GiFile.close(); //fermer le fichier CSV.
 
 
 
@@ -90,7 +83,7 @@ public class Main
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            e.printStackTrace(); //pour afficher des exception par exemple(plus que 3 colonnes).
 
         }
 
