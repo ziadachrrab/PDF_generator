@@ -26,9 +26,11 @@ public class Main
             String path,nameFile;
 
             System.out.println("Enter le chemin d'enregistrement de votre ficher excel et son nom (fichier.csv): ");
+
             nameFile = lire.nextLine(); //scanner pour lire le chemin d'enregistrement donner par l'utilisateur.
 
             System.out.println("Entrer le chemin de votre fichier pdf (liste d'etudiants): ");
+
             path = lire.nextLine();//scanner pour lire le chemin du fichier PDF donner par l'utilisateur.
 
             PrintWriter GiFile = new PrintWriter(nameFile);// le nom de fichier CSV aprés la convertion.
@@ -40,7 +42,9 @@ public class Main
 
 
                 PDFTextStripperByArea stripper = new PDFTextStripperByArea();//Cela extraira le texte d'une région spécifiée dans le PDF.
+
                 stripper.setSortByPosition(true); //Pour trier le texte de gauche à droite et de haut en bas.
+
                 PDFTextStripper Tstripper = new PDFTextStripper(); //Cette classe prendra un document pdf et supprimera tout le texte et ignorera le formatage et autres.
                 String str = Tstripper.getText(doc);
 
@@ -75,6 +79,7 @@ public class Main
                 }
             }
             doc.close(); //fermer le document.
+
             GiFile.close(); //fermer le fichier CSV.
 
 
